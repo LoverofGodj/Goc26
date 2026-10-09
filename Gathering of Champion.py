@@ -75,14 +75,11 @@ def top_N_chart(data1,field,n,include_unknown):
 
 st.title("Goc Registration Dashboard")
 upload=st.sidebar.file_uploader("use a different Csv",type="csv")
-if upload is not None:
-    raw=upload.getvalue()
-elif CSV_path.exists ():
-    raw=CSV_path.read_bytes() 
-else:
-    st.error(f"Couldn't find the {CSV_path.name} next to this script."
-             "Upload from the sidebar")   
+if not CSV_path.exists() and not upload:
+    st.error("No CSV file found. Please upload a CSV file.")
     st.stop()
+
+raw= CSV_path.read_bytes()
 
 try:
     data = load_data(raw)
